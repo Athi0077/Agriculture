@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import './AIAssistant.css';
 import ChatWindow from './ChatWindow';
 import ChatHistory from './ChatHistory';
-import { getChats, getChatById, sendChatMessage, getWeather } from '../../services/api';
+import { getChats, getChatById, sendChatMessage, getWeather, getScans } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 
 export default function AIAssistant() {
@@ -18,6 +18,7 @@ export default function AIAssistant() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [weatherContext, setWeatherContext] = useState(null);
+  const [riskContext, setRiskContext] = useState(null);
 
   // Initialize welcome message
   const welcomeMessage = { 
@@ -39,8 +40,22 @@ export default function AIAssistant() {
       if (!weatherContext) {
         fetchBackgroundWeather();
       }
+      if (!riskContext) {
+        fetchBackgroundRisk();
+      }
     }
   }, [isOpen]);
+
+  const fetchBackgroundRisk = async () => {
+    try {
+      const response = await getScans();
+      if (response.success && response.scans && response.scans.length > 0) {
+        setRiskContext(response.scans[0]); // pass latest scan as risk context
+      }
+    } catch (e) {
+      console.warn('Could not fetch risk context for AI assistant');
+    }
+  };
 
   const fetchBackgroundWeather = async () => {
     try {
@@ -99,6 +114,9 @@ export default function AIAssistant() {
       
       if (weatherContext) {
         formData.append('weatherContext', JSON.stringify(weatherContext));
+      }
+      if (riskContext) {
+        formData.append('riskContext', JSON.stringify(riskContext));
       }
 
       const response = await sendChatMessage(formData);

@@ -194,7 +194,7 @@ export const answerWeatherDoubt = async (question, weatherData, language = 'Engl
   }
 };
 
-export const chatWithAssistant = async (message, imageUrl, weatherData, language = 'English', history = []) => {
+export const chatWithAssistant = async (message, imageUrl, weatherData, riskData, language = 'English', history = []) => {
   try {
     let systemContent = `
       You are AgriVision AI, an agriculture-focused intelligent assistant.
@@ -205,6 +205,18 @@ export const chatWithAssistant = async (message, imageUrl, weatherData, language
       
       IMPORTANT: You must reply entirely in ${language}.
     `;
+
+    if (riskData) {
+      systemContent += `
+      
+      Current Field Risk Context (from latest scan):
+      - Overall Risk Score: ${riskData.riskScore || 'N/A'}/100
+      - Risk Level: ${riskData.riskLevel || 'N/A'}
+      - Latest Diagnosis: ${riskData.diagnosis || 'N/A'}
+      
+      Use this risk context to give the user personalized advice if they ask about their current crop health or field risks.
+      `;
+    }
 
     if (weatherData) {
       systemContent += `

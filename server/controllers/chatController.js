@@ -43,7 +43,7 @@ export const getChatById = async (req, res) => {
 // @access  Private
 export const sendMessage = async (req, res) => {
   try {
-    const { message, chatId, weatherContext } = req.body;
+    const { message, chatId, weatherContext, riskContext } = req.body;
     
     // Parse weather context if provided (it might be sent as string in multipart form)
     let parsedWeather = null;
@@ -52,6 +52,15 @@ export const sendMessage = async (req, res) => {
         parsedWeather = typeof weatherContext === 'string' ? JSON.parse(weatherContext) : weatherContext;
       } catch (e) {
         console.warn('Failed to parse weather context', e);
+      }
+    }
+
+    let parsedRisk = null;
+    if (riskContext) {
+      try {
+        parsedRisk = typeof riskContext === 'string' ? JSON.parse(riskContext) : riskContext;
+      } catch (e) {
+        console.warn('Failed to parse risk context', e);
       }
     }
 
@@ -100,7 +109,7 @@ export const sendMessage = async (req, res) => {
 
     // Call AI
     const language = req.user.language || 'English';
-    const aiResponse = await chatWithAssistant(message, imageUrl, parsedWeather, language, history);
+    const aiResponse = await chatWithAssistant(message, imageUrl, parsedWeather, parsedRisk, language, history);
 
     // Add AI response
     const aiMsg = {
