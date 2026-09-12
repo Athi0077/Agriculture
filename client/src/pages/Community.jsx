@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import { getPosts, addComment } from '../services/api';
+import { getPosts, addComment, BASE_URL } from '../services/api';
 import { Users, MessageSquare, BadgeCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -84,7 +84,7 @@ export default function Community() {
                   {post.scanId && (
                     <div style={{ display: 'flex', gap: '15px', padding: '15px', backgroundColor: '#f9fafb', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
                       {/* Check if imageUrl is absolute, if not prepend API URL */}
-                      <img src={post.scanId.imageUrl.startsWith('http') ? post.scanId.imageUrl : `http://localhost:5000/${post.scanId.imageUrl}`} alt="Scan" style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px' }} />
+                      <img src={post.scanId.imageUrl.startsWith('http') ? post.scanId.imageUrl : `${BASE_URL}/${post.scanId.imageUrl}`} alt="Scan" style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px' }} />
                       <div>
                         <strong style={{ display: 'block', fontSize: '1.1rem', color: '#1f2937' }}>{post.scanId.cropType}</strong>
                         <span style={{ fontSize: '0.9rem', color: '#6b7280' }}>AI Diagnosis: </span>

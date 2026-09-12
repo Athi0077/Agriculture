@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X, Trash2, Eye, Share2 } from 'lucide-react';
+import { BASE_URL } from '../services/api';
 import RiskScore from './intelligence/RiskScore';
 import RiskFactorBreakdown from './intelligence/RiskFactorBreakdown';
 import RiskDrivers from './intelligence/RiskDrivers';
@@ -134,7 +135,7 @@ export default function RecentScans({ scans = [], loading = false, hideViewAll =
               {selectedScan.imageUrl && (
                 <div style={{ flex: '1 1 300px', minWidth: '300px' }}>
                   <div style={{ borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-                    <img src={`http://localhost:5000/${selectedScan.imageUrl.replace(/\\/g, '/')}`} alt="Crop" style={{ width: '100%', display: 'block', objectFit: 'cover' }} />
+                    <img src={`${BASE_URL}/${selectedScan.imageUrl.replace(/\\/g, '/')}`} alt="Crop" style={{ width: '100%', display: 'block', objectFit: 'cover' }} />
                   </div>
                 </div>
               )}
