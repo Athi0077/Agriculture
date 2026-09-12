@@ -165,7 +165,7 @@
 
 @media (max-width: 1024px) {
   .dashboard-main-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .stats-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -191,6 +191,8 @@
     font-weight: 700;
     color: var(--text-dark);
     white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .mobile-role {

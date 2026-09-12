@@ -10,9 +10,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 30px;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 10px;
+  min-width: 0;
 }
 
 .trend-header h3 {

@@ -78,9 +78,8 @@
   text-transform: uppercase;
   line-height: 1.2;
   max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
   flex-shrink: 0;
 }
 

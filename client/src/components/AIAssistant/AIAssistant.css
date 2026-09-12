@@ -352,13 +352,15 @@
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .ai-assistant-container {
-    bottom: calc(64px + 16px + env(safe-area-inset-bottom));
+    bottom: calc(85px + env(safe-area-inset-bottom));
     right: 16px;
+    max-width: calc(100% - 32px);
   }
 
   .ai-window {
     width: calc(100vw - 32px);
-    height: calc(100vh - 100px - env(safe-area-inset-bottom));
+    max-width: 100%;
+    height: calc(100vh - 110px - env(safe-area-inset-bottom));
     max-height: 600px;
   }
 }

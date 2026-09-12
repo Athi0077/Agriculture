@@ -78,10 +78,10 @@ export default function CropScanner() {
           <p style={{ fontWeight: 600, marginBottom: '0.5rem', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>Upload a clear image of the affected leaf or crop.</p>
           <p className="text-muted" style={{ fontSize: '0.875rem', marginBottom: '1.5rem' }}>Supported formats: JPG, PNG</p>
           
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
-            <label className="btn btn-primary" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-              <UploadCloud size={20} style={{ marginRight: '8px' }} />
-              Upload Image
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center', width: '100%', minWidth: 0, boxSizing: 'border-box' }}>
+            <label className="btn btn-primary" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', minWidth: 0, boxSizing: 'border-box' }}>
+              <UploadCloud size={20} style={{ marginRight: '8px', flexShrink: 0 }} />
+              <span style={{ whiteSpace: 'normal', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>Upload Image</span>
               <input type="file" hidden accept="image/jpeg, image/png, image/webp" ref={fileInputRef} onChange={handleFileSelect} />
             </label>
           </div>
@@ -125,9 +125,9 @@ export default function CropScanner() {
               <h4 style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Why this was detected:</h4>
               <ul style={{ listStyleType: 'none', padding: 0 }}>
                 {result.factors.map((factor, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>
-                    <CheckCircle2 size={16} className="text-primary" />
-                    {factor}
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', marginBottom: '0.5rem', color: 'var(--text-muted)', minWidth: 0 }}>
+                    <CheckCircle2 size={16} className="text-primary" style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <span style={{ overflowWrap: 'anywhere', wordBreak: 'break-word', whiteSpace: 'normal', minWidth: 0 }}>{factor}</span>
                   </li>
                 ))}
               </ul>
