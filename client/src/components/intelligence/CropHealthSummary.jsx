@@ -1,7 +1,47 @@
 import React from 'react';
 import './CropHealthSummary.css';
 
-const CropHealthSummary = ({ latestScan }) => {
+const CropHealthSummary = ({ latestScan, loading }) => {
+  if (loading) {
+    return (
+      <div className="card crop-health-summary">
+        <h3 className="h4 mb-4" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>Dashboard Intelligence</h3>
+        
+        <div className="summary-grid">
+          <div className="summary-item main-risk">
+            <div className="summary-label">Risk Score</div>
+            <div className="skeleton skeleton-title" style={{ height: '3rem', width: '50%' }}></div>
+          </div>
+
+          <div className="summary-item">
+            <div className="summary-label">AI Diagnosis</div>
+            <div className="skeleton skeleton-text" style={{ width: '80%' }}></div>
+            <div className="skeleton skeleton-text" style={{ width: '50%' }}></div>
+          </div>
+
+          <div className="summary-item">
+            <div className="summary-label">Environmental Risk</div>
+            <div className="skeleton skeleton-text" style={{ width: '60%' }}></div>
+          </div>
+
+          <div className="summary-item">
+            <div className="summary-label">Local Disease Activity</div>
+            <div className="skeleton skeleton-text" style={{ width: '60%' }}></div>
+          </div>
+        </div>
+
+        <div className="top-drivers-section mt-4">
+          <h4 className="h5 mb-2" style={{ color: 'var(--text-color)' }}>Top Risk Drivers</h4>
+          <ul className="drivers-list-small">
+            <li><div className="skeleton skeleton-text" style={{ width: '70%' }}></div></li>
+            <li><div className="skeleton skeleton-text" style={{ width: '85%' }}></div></li>
+            <li><div className="skeleton skeleton-text" style={{ width: '60%' }}></div></li>
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
   if (!latestScan) {
     return (
       <div className="card crop-health-summary">

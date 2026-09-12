@@ -1,7 +1,28 @@
 import React from 'react';
 import './RiskTrendChart.css';
 
-const RiskTrendChart = ({ scans }) => {
+const RiskTrendChart = ({ scans, loading }) => {
+  if (loading) {
+    return (
+      <div className="card risk-trend-chart">
+        <div className="trend-header">
+          <h3 className="h4">Crop Risk Trend</h3>
+          <div className="skeleton" style={{ width: '80px', height: '24px', borderRadius: '12px' }}></div>
+        </div>
+        <div className="chart-container">
+          {[...Array(7)].map((_, i) => (
+            <div key={i} className="chart-bar-group">
+              <div className="chart-bar-wrapper">
+                <div className="skeleton" style={{ width: '100%', height: `${Math.random() * 60 + 20}%`, borderRadius: '4px 4px 0 0' }}></div>
+              </div>
+              <div className="skeleton mt-2" style={{ width: '30px', height: '12px' }}></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (!scans || scans.length === 0) {
     return (
       <div className="card risk-trend-chart">

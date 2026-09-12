@@ -16,12 +16,7 @@ export default function Dashboard() {
   const [scans, setScans] = useState([]);
   const [latestReport, setLatestReport] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({
-    total: 0,
-    healthy: 0,
-    diseased: 0,
-    highRisk: 0
-  });
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -70,10 +65,10 @@ export default function Dashboard() {
       />
 
       <div className="stats-grid">
-        <StatCard title="Total Scans" value={stats.total.toString()} icon={<ScanSearch size={24} />} />
-        <StatCard title="Healthy Crops" value={stats.healthy} icon={<CheckCircle2 size={24} />} />
-        <StatCard title="Disease Detected" value={stats.diseased.toString()} icon={<AlertTriangle size={24} />} />
-        <StatCard title="High Risk Fields" value={stats.highRisk.toString()} icon={<Map size={24} />} />
+        <StatCard title="Total Scans" value={stats?.total?.toString()} icon={<ScanSearch size={24} />} loading={loading} />
+        <StatCard title="Healthy Crops" value={stats?.healthy} icon={<CheckCircle2 size={24} />} loading={loading} />
+        <StatCard title="Disease Detected" value={stats?.diseased?.toString()} icon={<AlertTriangle size={24} />} loading={loading} />
+        <StatCard title="High Risk Fields" value={stats?.highRisk?.toString()} icon={<Map size={24} />} loading={loading} />
       </div>
 
       <div className="dashboard-main-grid">
@@ -104,8 +99,8 @@ export default function Dashboard() {
               </div>
             </div>
           )}
-          <CropHealthSummary latestScan={latestScan} />
-          <RiskTrendChart scans={scans} />
+          <CropHealthSummary latestScan={latestScan} loading={loading} />
+          <RiskTrendChart scans={scans} loading={loading} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <CropScanner />

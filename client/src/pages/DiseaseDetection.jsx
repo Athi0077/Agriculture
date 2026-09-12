@@ -47,6 +47,7 @@ export default function DiseaseDetection() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
+        setStep(2);
       };
       reader.readAsDataURL(file);
     }
@@ -210,6 +211,20 @@ export default function DiseaseDetection() {
               onClick={() => fileInputRef.current.click()}
               onMouseOver={(e) => e.currentTarget.style.borderColor = 'var(--primary-color)'}
               onMouseOut={(e) => e.currentTarget.style.borderColor = 'var(--border-color)'}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                  const file = e.dataTransfer.files[0];
+                  setImageFile(file);
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setImagePreview(reader.result);
+                    setStep(2);
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
             >
               <UploadCloud size={48} color="var(--primary-color)" style={{ margin: '0 auto 1rem' }} />
               <h3 className="h4" style={{ marginBottom: '0.5rem' }}>{t('Upload Crop Image')}</h3>
