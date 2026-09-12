@@ -33,7 +33,7 @@ export const analyzeCropImage = async (imageUrl, cropType, weatherData, language
       'https://openrouter.ai/api/v1/chat/completions',
       {
         model: 'google/gemini-3.8-flash', // Fast vision model
-        max_tokens: 1000,
+        max_tokens: 250,
         messages: [
           {
             role: 'user',
@@ -116,7 +116,7 @@ export const answerDoubt = async (question, context, language = 'English', histo
       'https://openrouter.ai/api/v1/chat/completions',
       {
         model: 'google/gemini-3.8-flash',
-        max_tokens: 500,
+        max_tokens: 250,
         messages: messages
       },
       {
@@ -174,7 +174,7 @@ export const answerWeatherDoubt = async (question, weatherData, language = 'Engl
       'https://openrouter.ai/api/v1/chat/completions',
       {
         model: 'google/gemini-3.8-flash',
-        max_tokens: 500,
+        max_tokens: 250,
         messages: messages
       },
       {
@@ -289,7 +289,7 @@ export const chatWithAssistant = async (message, imageUrl, weatherData, riskData
 
     const apiConfig = {
       model: 'google/gemini-3.8-flash',
-      max_tokens: 800,
+      max_tokens: 250,
       messages: messages,
     };
 
@@ -380,7 +380,7 @@ export const generateFarmingReport = async (scans, language = 'English') => {
       'https://openrouter.ai/api/v1/chat/completions',
       {
         model: 'google/gemini-3.8-flash',
-        max_tokens: 800,
+        max_tokens: 250,
         messages: [{ role: 'user', content: prompt }],
         response_format: { type: "json_object" }
       },
