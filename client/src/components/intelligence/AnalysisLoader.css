@@ -1,0 +1,87 @@
+.analysis-loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.analysis-loader-modal {
+  background: #1a1c23;
+  border-radius: 16px;
+  padding: 40px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loader-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(76, 175, 80, 0.3);
+  border-top-color: #4CAF50;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loader-title {
+  margin-bottom: 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #4CAF50;
+}
+
+.loader-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.loader-step {
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  color: #888;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.loader-step.active {
+  color: #fff;
+  font-weight: 500;
+}
+
+.loader-step.completed {
+  color: #4CAF50;
+}
+
+.step-icon {
+  margin-right: 12px;
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.final-step {
+  font-weight: bold;
+  margin-top: 15px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 15px;
+}

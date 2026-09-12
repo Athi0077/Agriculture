@@ -1,0 +1,99 @@
+.risk-trend-chart {
+  background: var(--bg-secondary);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: auto;
+}
+
+.trend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.trend-header h3 {
+  margin: 0;
+}
+
+.trend-badge {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.trend-bad {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #F44336;
+}
+
+.trend-good {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+}
+
+.chart-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 200px;
+  padding-top: 20px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    height: 150px;
+  }
+}
+
+.chart-bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  flex: 1;
+}
+
+.chart-bar-wrapper {
+  flex-grow: 1;
+  width: 30px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+.chart-bar-fill {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  transition: height 1s ease-out;
+  cursor: pointer;
+}
+
+.chart-bar-fill:hover {
+  filter: brightness(1.2);
+}
+
+.chart-bar-value {
+  position: absolute;
+  top: -20px;
+  width: 100%;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.chart-label {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}

@@ -1,0 +1,66 @@
+.risk-factor-breakdown {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.breakdown-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 10px;
+}
+
+.breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.factor-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.factor-label {
+  flex: 0 0 100px;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.factor-bar-container {
+  flex: 1;
+  margin: 0 15px;
+}
+
+.factor-bar-bg {
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.factor-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease-out;
+}
+
+.factor-value {
+  flex: 0 0 50px;
+  text-align: right;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.factor-max {
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-weight: normal;
+}
