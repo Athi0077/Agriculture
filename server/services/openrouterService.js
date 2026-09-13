@@ -32,7 +32,7 @@ export const analyzeCropImage = async (imageUrl, cropType, weatherData, language
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
-        model: 'google/gemini-3.8-flash', // Fast vision model
+        model: 'openai/gpt-4o-mini', // Fast vision model
         max_tokens: 250,
         messages: [
           {
@@ -115,7 +115,7 @@ export const answerDoubt = async (question, context, language = 'English', histo
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
-        model: 'google/gemini-3.8-flash',
+        model: 'openai/gpt-4o-mini',
         max_tokens: 250,
         messages: messages
       },
@@ -173,7 +173,7 @@ export const answerWeatherDoubt = async (question, weatherData, language = 'Engl
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
-        model: 'google/gemini-3.8-flash',
+        model: 'openai/gpt-4o-mini',
         max_tokens: 250,
         messages: messages
       },
@@ -288,7 +288,7 @@ export const chatWithAssistant = async (message, imageUrl, weatherData, riskData
     const messages = [systemMessage, ...previousMessages, { role: 'user', content: userMessageContent }];
 
     const apiConfig = {
-      model: 'google/gemini-3.8-flash',
+      model: 'openai/gpt-4o-mini',
       max_tokens: 250,
       messages: messages,
     };
@@ -379,7 +379,7 @@ export const generateFarmingReport = async (scans, language = 'English') => {
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
-        model: 'google/gemini-3.8-flash',
+        model: 'openai/gpt-4o-mini',
         max_tokens: 250,
         messages: [{ role: 'user', content: prompt }],
         response_format: { type: "json_object" }

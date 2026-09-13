@@ -11,7 +11,7 @@ async function test() {
         const response = await axios.post(
             'https://openrouter.ai/api/v1/chat/completions',
             {
-              model: 'google/gemini-3.8-flash',
+              model: 'openai/gpt-4o-mini',
               max_tokens: 500,
               messages: [
                 {
