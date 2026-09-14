@@ -6,13 +6,13 @@ import { answerWeatherDoubt } from '../services/openrouterService.js';
 // @access  Private
 export const getWeather = async (req, res) => {
   try {
-    const { city, state } = req.user;
+    const { city, state, location } = req.user;
 
     if (!city || !state) {
       return res.status(400).json({ success: false, message: 'User location (city, state) not found. Please update your profile.' });
     }
 
-    const weatherData = await getWeatherByLocation(city, state);
+    const weatherData = await getWeatherByLocation(city, state, location?.latitude, location?.longitude);
 
     res.status(200).json({ success: true, weatherData });
   } catch (error) {

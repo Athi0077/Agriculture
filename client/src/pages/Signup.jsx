@@ -24,10 +24,15 @@ export default function Signup() {
     confirmPassword: '', 
     city: '', 
     state: '',
-    phone: '' 
+    phone: '',
+    location: null
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
+  const [locationError, setLocationError] = useState('');
+  const [showManualLocation, setShowManualLocation] = useState(false);
+
   const { signup, currentUser } = useAuth();
   const navigate = useNavigate();
 
@@ -41,6 +46,56 @@ export default function Signup() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleGetCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    setIsLocating(true);
+    setLocationError('');
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+          if (!response.ok) throw new Error('Failed to fetch location data');
+          const data = await response.json();
+          
+          const city = data.address.city || data.address.town || data.address.village || data.address.county || '';
+          const state = data.address.state || '';
+          const country = data.address.country || '';
+
+          setFormData(prev => ({
+            ...prev,
+            city,
+            state,
+            location: {
+              latitude,
+              longitude,
+              city,
+              state,
+              country
+            }
+          }));
+        } catch (err) {
+          setLocationError("Failed to detect location details. Please try again or enter manually.");
+        } finally {
+          setIsLocating(false);
+        }
+      },
+      (err) => {
+        setIsLocating(false);
+        if (err.code === err.PERMISSION_DENIED) {
+          setLocationError("Location permission was denied. Please allow location access or enter your location manually.");
+        } else {
+          setLocationError("Failed to detect location. Please try again or enter manually.");
+        }
+      }
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -51,6 +106,10 @@ export default function Signup() {
 
     if (formData.password.length < 6) {
       return setError('Password must be at least 6 characters');
+    }
+
+    if (!formData.city || !formData.state) {
+      return setError('Location is required. Please use current location or enter manually.');
     }
 
     setLoading(true);
@@ -85,26 +144,97 @@ export default function Signup() {
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Email Address *</label>
             <input type="email" name="email" value={formData.email} onChange={handleChange} required style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>State *</label>
-              <select name="state" value={formData.state} onChange={(e) => { handleChange(e); setFormData(prev => ({ ...prev, state: e.target.value, city: '' })); }} required style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'white' }}>
-                <option value="">Select State</option>
-                {Object.keys(indiaData).sort().map(state => (
-                  <option key={state} value={state}>{state}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>City *</label>
-              <select name="city" value={formData.city} onChange={handleChange} required disabled={!formData.state} style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: formData.state ? 'white' : '#f3f4f6' }}>
-                <option value="">Select City</option>
-                {formData.state && indiaData[formData.state]?.sort().map(city => (
-                  <option key={city} value={city}>{city}</option>
-                ))}
-              </select>
-            </div>
+          
+          <div style={{ border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1rem' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Location *</label>
+            
+            {!showManualLocation ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <button 
+                  type="button" 
+                  onClick={handleGetCurrentLocation}
+                  disabled={isLocating}
+                  style={{
+                    backgroundColor: 'var(--primary-color)',
+                    color: 'white',
+                    padding: '0.75rem',
+                    borderRadius: 'var(--radius-md)',
+                    border: 'none',
+                    fontWeight: 500,
+                    cursor: isLocating ? 'not-allowed' : 'pointer',
+                    opacity: isLocating ? 0.7 : 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem'
+                  }}
+                >
+                  {isLocating ? '📍 Detecting your location...' : '📍 Use My Current Location'}
+                </button>
+                
+                {formData.location ? (
+                  <div style={{ backgroundColor: '#DEF7EC', color: '#03543F', padding: '0.75rem', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
+                    <div style={{ fontWeight: 600, marginBottom: '0.25rem' }}>✓ Current Location Detected</div>
+                    <div>📍 {formData.location.city}, {formData.location.state}, {formData.location.country}</div>
+                    <div style={{ fontSize: '0.75rem', marginTop: '0.25rem', opacity: 0.8 }}>Location detected automatically</div>
+                  </div>
+                ) : (
+                  <div style={{ fontSize: '0.875rem', color: 'var(--text-light)', textAlign: 'center' }}>
+                    Allow location access to automatically detect your city and state.
+                  </div>
+                )}
+
+                {locationError && (
+                  <div style={{ color: '#B91C1C', fontSize: '0.875rem', textAlign: 'center', marginTop: '0.5rem' }}>
+                    {locationError}
+                  </div>
+                )}
+                
+                <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
+                  <button 
+                    type="button" 
+                    onClick={() => setShowManualLocation(true)}
+                    style={{ background: 'none', border: 'none', color: 'var(--primary-color)', fontWeight: 500, cursor: 'pointer', textDecoration: 'underline' }}
+                  >
+                    Enter location manually
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>State *</label>
+                    <select name="state" value={formData.state} onChange={(e) => { handleChange(e); setFormData(prev => ({ ...prev, state: e.target.value, city: '' })); }} required={showManualLocation} style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'white' }}>
+                      <option value="">Select State</option>
+                      {Object.keys(indiaData).sort().map(state => (
+                        <option key={state} value={state}>{state}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>City *</label>
+                    <select name="city" value={formData.city} onChange={handleChange} required={showManualLocation} disabled={!formData.state} style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: formData.state ? 'white' : '#f3f4f6' }}>
+                      <option value="">Select City</option>
+                      {formData.state && indiaData[formData.state]?.sort().map(city => (
+                        <option key={city} value={city}>{city}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <button 
+                    type="button" 
+                    onClick={() => setShowManualLocation(false)}
+                    style={{ background: 'none', border: 'none', color: 'var(--primary-color)', fontWeight: 500, cursor: 'pointer', textDecoration: 'underline' }}
+                  >
+                    Use automatic location detection instead
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
+
           <div>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Phone Number (Optional)</label>
             <input type="text" name="phone" value={formData.phone} onChange={handleChange} style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }} />

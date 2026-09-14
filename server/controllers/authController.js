@@ -13,7 +13,7 @@ const generateToken = (id) => {
 // @access  Public
 export const signup = async (req, res) => {
   try {
-    const { name, email, password, city, state, phone } = req.body;
+    const { name, email, password, city, state, phone, location } = req.body;
 
     if (!name || !email || !password || !city || !state) {
       return res.status(400).json({ success: false, message: 'Please add all required fields' });
@@ -34,6 +34,7 @@ export const signup = async (req, res) => {
       city,
       state,
       phone,
+      location,
     });
 
     if (user) {
@@ -47,6 +48,7 @@ export const signup = async (req, res) => {
           city: user.city,
           state: user.state,
           language: user.language,
+          location: user.location,
         },
       });
     } else {
@@ -78,6 +80,7 @@ export const login = async (req, res) => {
           city: user.city,
           state: user.state,
           language: user.language,
+          location: user.location,
         },
       });
     } else {
@@ -102,6 +105,7 @@ export const getMe = async (req, res) => {
         city: req.user.city,
         state: req.user.state,
         language: req.user.language,
+        location: req.user.location,
       }
     });
   } catch (error) {
@@ -131,6 +135,7 @@ export const updateSettings = async (req, res) => {
           city: updatedUser.city,
           state: updatedUser.state,
           language: updatedUser.language,
+          location: updatedUser.location,
         },
       });
     } else {
