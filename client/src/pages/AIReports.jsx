@@ -3,7 +3,7 @@ import { getAIReports, markReportAsRead } from '../services/api';
 import { useTranslation } from 'react-i18next';
 import { 
   Bot, Clock, AlertTriangle, TrendingUp, TrendingDown, 
-  CheckCircle, FileText, X, Search, ChevronRight, Activity
+  CheckCircle, FileText, X, Search, ChevronRight, Activity, ScanSearch
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './AIReports.css';
