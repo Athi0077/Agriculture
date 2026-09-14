@@ -9,13 +9,9 @@ export default function Community() {
   const [loading, setLoading] = useState(true);
   const [commentingId, setCommentingId] = useState(null);
   const [commentText, setCommentText] = useState('');
-  const { currentUser } = useAuth();
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  const fetchPosts = async () => {
+  const { currentUser: _ } = useAuth(); // or just useAuth() if we don't need it, but useAuth returns an object. Actually I'll just remove it.
+  
+  async function fetchPosts() {
     try {
       const data = await getPosts();
       if (data.success) {
@@ -26,7 +22,11 @@ export default function Community() {
     } finally {
       setLoading(false);
     }
-  };
+  }
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const handleAddComment = async (postId) => {
     if (!commentText.trim()) return;

@@ -46,7 +46,7 @@ export default function AIAssistant() {
     }
   }, [isOpen]);
 
-  const fetchBackgroundRisk = async () => {
+  async function fetchBackgroundRisk() {
     try {
       const response = await getScans();
       if (response.success && response.scans && response.scans.length > 0) {
@@ -57,7 +57,7 @@ export default function AIAssistant() {
     }
   };
 
-  const fetchBackgroundWeather = async () => {
+  async function fetchBackgroundWeather() {
     try {
       // It uses the backend's logic to fetch weather based on user profile city/state
       const data = await getWeather();
@@ -69,7 +69,7 @@ export default function AIAssistant() {
     }
   };
 
-  const fetchChatList = async () => {
+  async function fetchChatList() {
     try {
       const data = await getChats();
       if (data.success) {

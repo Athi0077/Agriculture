@@ -13,7 +13,7 @@ import DoubtChat from '../components/intelligence/DoubtChat';
 export default function DiseaseDetection() {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState(null);
   
   const [formData, setFormData] = useState({

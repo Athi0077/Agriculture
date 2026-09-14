@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { UploadCloud, Camera, CheckCircle2 } from 'lucide-react';
+import { UploadCloud, CheckCircle2 } from 'lucide-react';
 import { analyzeIntelligence } from '../services/api';
 
 export default function CropScanner() {

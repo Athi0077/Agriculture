@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getAIReports, markReportAsRead } from '../services/api';
 import { useTranslation } from 'react-i18next';
 import { 
-  Bot, Clock, AlertTriangle, TrendingUp, TrendingDown, 
-  CheckCircle, FileText, X, Search, ChevronRight, Activity, ScanSearch
+  Bot, TrendingUp, CheckCircle, FileText, X, Search, ChevronRight, Activity, ScanSearch
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './AIReports.css';
@@ -15,11 +14,7 @@ export default function AIReports() {
   const [loading, setLoading] = useState(true);
   const [selectedReport, setSelectedReport] = useState(null);
 
-  useEffect(() => {
-    fetchReports();
-  }, []);
-
-  const fetchReports = async () => {
+  async function fetchReports() {
     try {
       const data = await getAIReports();
       if (data.success) {
@@ -30,7 +25,11 @@ export default function AIReports() {
     } finally {
       setLoading(false);
     }
-  };
+  }
+
+  useEffect(() => {
+    fetchReports();
+  }, []);
 
   const handleOpenReport = async (report) => {
     setSelectedReport(report);
@@ -59,7 +58,7 @@ export default function AIReports() {
   };
 
   // Group reports by date string (Today, Yesterday, etc.)
-  const groupReportsByDate = (reportsList) => {
+  const groupReportsByDate = React.useCallback((reportsList) => {
     const groups = {};
     const today = new Date().toLocaleDateString();
     const yesterday = new Date(Date.now() - 86400000).toLocaleDateString();
@@ -69,16 +68,16 @@ export default function AIReports() {
       let groupName = reportDate;
       if (reportDate === today) groupName = t('Today');
       else if (reportDate === yesterday) groupName = t('Yesterday');
-      else groupName = reportDate; // could also group as "Older"
+      else groupName = reportDate;
 
       if (!groups[groupName]) groups[groupName] = [];
       groups[groupName].push(report);
     });
 
     return groups;
-  };
+  }, [t]);
 
-  const groupedReports = groupReportsByDate(reports);
+  const groupedReports = React.useMemo(() => groupReportsByDate(reports), [groupReportsByDate, reports]);
 
   return (
     <div className="ai-reports-container">

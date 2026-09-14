@@ -79,7 +79,7 @@ export default function Signup() {
               country
             }
           }));
-        } catch (err) {
+        } catch {
           setLocationError("Failed to detect location details. Please try again or enter manually.");
         } finally {
           setIsLocating(false);
@@ -115,7 +115,8 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const { confirmPassword, ...dataToSubmit } = formData;
+      const dataToSubmit = { ...formData };
+      delete dataToSubmit.confirmPassword;
       const result = await signup(dataToSubmit);
       if (result.success) {
         navigate('/dashboard');

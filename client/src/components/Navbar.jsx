@@ -25,15 +25,7 @@ export default function Navbar({ title, subtitle }) {
     navigate('/login');
   };
 
-  useEffect(() => {
-    fetchUserNotifications();
-    
-    // Poll for notifications every 5 minutes in case a background cron job generates one
-    const interval = setInterval(fetchUserNotifications, 5 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const fetchUserNotifications = async () => {
+  async function fetchUserNotifications() {
     try {
       const data = await getNotifications();
       if (data.success) {
@@ -43,7 +35,15 @@ export default function Navbar({ title, subtitle }) {
     } catch (err) {
       console.error('Failed to fetch notifications', err);
     }
-  };
+  }
+
+  useEffect(() => {
+    fetchUserNotifications();
+    
+    // Poll for notifications every 5 minutes in case a background cron job generates one
+    const interval = setInterval(fetchUserNotifications, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleNotificationClick = async (notif) => {
     setShowNotifications(false);
