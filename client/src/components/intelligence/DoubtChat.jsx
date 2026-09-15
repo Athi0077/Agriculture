@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { askDoubt } from '../../services/api';
 
-const DoubtChat = ({ scanId, context, initialHistory = [] }) => {
+const DoubtChat = ({ scanId, context, initialHistory }) => {
   const [question, setQuestion] = useState('');
-  const [chatHistory, setChatHistory] = useState(initialHistory);
+  const [chatHistory, setChatHistory] = useState(initialHistory || []);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setChatHistory(initialHistory);
+    if (initialHistory) {
+      setChatHistory(initialHistory);
+    }
   }, [initialHistory]);
 
   const handleSubmit = async (e) => {
